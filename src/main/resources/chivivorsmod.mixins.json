@@ -3,7 +3,8 @@
 	"package": "net.wordsaw.chivivorsmod.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"ExampleMixin"
+		"ExperienceBottleEntityMixin",
+		"PotionItemMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
