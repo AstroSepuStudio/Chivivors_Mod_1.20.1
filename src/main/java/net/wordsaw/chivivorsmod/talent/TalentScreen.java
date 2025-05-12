@@ -6,14 +6,18 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.wordsaw.chivivorsmod.ChivivorsMod;
 import net.wordsaw.chivivorsmod.talent.talents.Talent_BasicAttackDamage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class TalentScreen extends Screen {
     private static final Identifier BACKGROUND_TEXTURE = new Identifier("chivivorsmod", "textures/gui/talent_screen.png");
 
-    private TalentTreeData data;
+    private final UUID PLAYER_UUID;
+    private TalentTreeData talentData() { return ChivivorsMod.PLAYER_TALENT_DATA.get(PLAYER_UUID); }
+
     private int contentOffsetX = 0;
     private int contentOffsetY = 0;
 
@@ -49,12 +53,12 @@ public class TalentScreen extends Screen {
         return null;
     }
 
-    public TalentScreen() {
+    public TalentScreen(UUID playerUuid) {
         super(Text.of("Talent Screen"));
+        PLAYER_UUID = playerUuid;
     }
 
-    public void setUp(TalentTreeData data){
-        this.data = data;
+    public void setUp(){
         Talent_BasicAttackDamage basicAtkDmg = new Talent_BasicAttackDamage();
 
         TalentButtonData t0 = new TalentButtonData(basicAtkDmg, 0, 0, new Identifier("t0"), true, false);
@@ -122,7 +126,7 @@ public class TalentScreen extends Screen {
     }
 
     private void addButtonToContent(TalentButtonData btnData) {
-        TalentButton talentBtn = new TalentButton(data, btnData, lockedTexture, unlockedTexture);
+        TalentButton talentBtn = new TalentButton(talentData(), btnData, lockedTexture, unlockedTexture);
 
         TalentButtonWidget button = new TalentButtonWidget(
                 btnData.x,
@@ -145,7 +149,7 @@ public class TalentScreen extends Screen {
         this.renderBackground(context);
         context.drawTexture(BACKGROUND_TEXTURE, 0, 0, 0, 0, this.width, this.height, this.width, this.height);
 
-        context.drawTextWithShadow(this.textRenderer, Text.of("Talent Points: " + data.getTalentPoints()), 20, 20, 0xFFFFFF);
+        context.drawTextWithShadow(this.textRenderer, Text.of("Talent Points: " + talentData().getTalentPoints()), 20, 20, 0xFFFFFF);
 
         for (TalentButton talentButton : talentButtons) {
             talentButton.setPosition(
@@ -203,11 +207,7 @@ public class TalentScreen extends Screen {
     }
 
     public void buyTalentPoint(){
-        final int cost = 5;
-        if (data.getPlayer().experienceLevel >= cost) {
-            data.getPlayer().addExperienceLevels(-cost);
-            data.addTalentPoints(1);
-        }
+        talentData().tryBuyTalentPoint();
     }
 
     public void recenterCanvas(){

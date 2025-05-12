@@ -1,5 +1,7 @@
 {
   "item.chivivorsmod.hand": "Hand",
 
-  "itemgroup.chivivorstab": "Chivivors Tab"
+  "itemgroup.chivivorstab": "Chivivors Tab",
+
+  "enchantment.chivivorsmod.magical_protection": "Magical Protection"
 }

@@ -4,7 +4,11 @@
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
 		"ExperienceBottleEntityMixin",
-		"PotionItemMixin"
+		"PotionItemMixin",
+		"ProtectionEnchantmentMixin",
+		"ProtectionCompatibilityMixin",
+		"AnvilMixin",
+		"EnchantmentHelperMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
